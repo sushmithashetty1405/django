@@ -1,0 +1,48 @@
+#urls.py app
+
+from django.urls import path
+from datetimeapp import views
+
+urlpatterns = [
+    path("current_datetime/", views.current_datetime, name="current_datetime"),
+    
+]
+
+#html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Current Date and Time</title>
+</head>
+<body>
+    <h1>Current Date and Time</h1>
+    <p>{{ current_date_time }}</p>
+</body>
+</html> 
+
+
+
+
+#urls.py pro
+from django.contrib import admin
+from django.urls import path,include
+
+
+urlpatterns = [
+    path('',include("datetimeapp.urls")),
+    path('admin/', admin.site.urls),
+]
+
+
+
+#views
+from datetime import datetime
+from django.shortcuts import render
+
+
+# Using datetime library
+def current_datetime(request):
+    print("current", request.build_absolute_uri())
+    now = datetime.now()
+    return render(request, "datetimeapp/current_datetime.html", {'current_date_time': now})
+
