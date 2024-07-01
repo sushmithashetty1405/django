@@ -1,0 +1,12 @@
+#urls.py
+from django.urls import path
+from.import views
+urlpatterns=[
+path('',views.home,name='home'),
+]
+
+#views
+from django.shortcuts import render
+from django.http import HttpResponse
+def home(request):
+return HttpResponse("GOOD MORNING")
