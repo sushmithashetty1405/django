@@ -1,0 +1,55 @@
+#urls app
+
+from django.urls import path
+from timeaheadapp import views
+
+urlpatterns = [
+        path("dt2/", views.date_time_offset, name="date_time_offset"),
+]
+
+
+#html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date and Time Offset</title>
+</head>
+<body>
+    <h1>Date and Time Offset</h1>
+    <p>Current Date and Time: {{ current_datetime }}</p>
+    <p>Date and Time Four Hours Ahead: {{ datetime_ahead }}</p>
+    <p>Date and Time Four Hours Before: {{ datetime_before }}</p>
+</body>
+</html>
+
+
+#views
+from django.shortcuts import render
+from datetime import datetime, timedelta
+
+def date_time_offset(request):
+    # Get the current date and time on the server
+    current_datetime = datetime.now()
+
+    # Calculate the date and time four hours ahead and four hours before
+    datetime_ahead = current_datetime + timedelta(hours=4)
+    datetime_before = current_datetime - timedelta(hours=4)
+
+    # Format the date and time strings
+    formatted_current_datetime = current_datetime.strftime('%Y-%m-%d %H:%M:%S')
+    formatted_datetime_ahead = datetime_ahead.strftime('%Y-%m-%d %H:%M:%S')
+    formatted_datetime_before = datetime_before.strftime('%Y-%m-%d %H:%M:%S')
+
+    # Pass the formatted date and time strings to the template
+    context = {
+        'current_datetime': formatted_current_datetime,
+        'datetime_ahead': formatted_datetime_ahead,
+        'datetime_before': formatted_datetime_before
+    }
+
+    # Render the template with the context
+    return render(request, 'timeaheadapp/date_time_offset.html', context)
+
+
